@@ -1,0 +1,16 @@
+{
+  "name": "web_api_noticias",
+  "version": "1.0.0",
+  "description": "api para una web de noticias",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run dev"
+  },
+  "keywords": [
+    "Api",
+    "noticias",
+    "web"
+  ],
+  "author": "Ronald,Luis",
+  "license": "ISC"
+}
