@@ -55,29 +55,33 @@ let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].s
 sequelize.models = Object.fromEntries(capsEntries);
 
 const {
-    // User,
-    // Record,
-    // Application,
-    // Application_type,
+     Categoria,
+     Comentario,
+     Like,
+     Publicacion,
+     Tag,
+     Usuario,
+     Tag_Publicacion
 } = sequelize.models;
-// User.hasMany(Record, {
-//     foreignKey: 'userId',
-//     onDelete: 'CASCADE',
-//     hooks: true,
-// })
-// Record.belongsTo(User, { foreignKey: 'userId' })
-// Application_type.hasMany(Application, {
-//     foreignKey: 'typeId',
-//     onDelete: 'CASCADE',
-//     hooks: true,
-// });
-// Application.belongsTo(Application_type, { foreignKey: 'typeId' });
-// User.hasMany(Application, {
-//     foreignKey: 'userId',
-//     onDelete: 'CASCADE',
-//     hooks: true,
-// });
-// Application.belongsTo(User, { foreignKey: 'userId' });
+
+Categoria.hasMany(Publicacion, { onDelete: 'CASCADE', hooks: true, }); // Un Categoria pertenece a muchas Publiaciones
+Publicacion.belongsTo(Categoria, { onDelete: 'CASCADE', hooks: true,}); // Relación * a 1 entre Publiacion y Categoria
+
+Tag.belongsToMany(Publicacion, { through: Tag_Publicacion}); //Muchos tags pueden tener muchas publiaciones
+Publicacion.belongsToMany(Tag, { through: Tag_Publicacion}); 
+
+Publicacion.hasMany(Comentario, { onDelete: 'CASCADE', hooks: true,}); // Relación * a 1 entre Publiacion y Comentario
+Comentario.belongsTo(Publicacion, { onDelete: 'CASCADE', hooks: true, }); // Un Comentario pertenece a muchas Publiaciones
+
+Usuario.hasMany(Comentario, { onDelete: 'CASCADE', hooks: true, }); // Un Comentario pertenece a muchas Publiaciones
+Comentario.belongsTo(Usuario, { onDelete: 'CASCADE', hooks: true,}); // Relación * a 1 entre Publiacion y Comentario
+
+Usuario.hasOne(Like, { onDelete: 'CASCADE', hooks: true,}); // Relación 1 a 1 entre Usuario y CueLiketa
+Like.belongsTo(Usuario, { onDelete: 'CASCADE', hooks: true,}); // La Like pertenece a un Usuario
+
+Publicacion.hasMany(Like, { onDelete: 'CASCADE', hooks: true,}); // Relación * a 1 entre Publiacion y Like
+Like.belongsTo(Publicacion, { onDelete: 'CASCADE', hooks: true, }); // Un Like pertenece a muchas Publiaciones
+
 
 module.exports = {
     ...sequelize.models,
